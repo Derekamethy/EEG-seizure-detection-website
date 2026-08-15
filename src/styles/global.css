@@ -302,7 +302,7 @@ footer { padding: 1.4rem clamp(1.25rem, 7vw, 8rem); display: flex; justify-conte
 @media (max-width: 1050px) {
   .site-header { height: auto; min-height: 76px; flex-wrap: wrap; padding-top: .55rem; padding-bottom: .55rem; }
   .primary-nav { display: flex; order: 3; flex: 0 0 100%; justify-content: flex-start; overflow-x: auto; padding-top: .5rem; border-top: 1px solid var(--line); scrollbar-width: thin; }
-  .primary-nav a { font-size: .72rem; }
+  .primary-nav a { min-height: 44px; display: inline-flex; align-items: center; font-size: .72rem; }
   .hero { grid-template-columns: 1fr; }
   .hero-evidence { max-width: 620px; }
   .challenge-grid, .metric-grid { grid-template-columns: repeat(2, 1fr); }
@@ -326,6 +326,7 @@ footer { padding: 1.4rem clamp(1.25rem, 7vw, 8rem); display: flex; justify-conte
 
 @media (max-width: 720px) {
   .site-header { height: auto; min-height: 64px; }
+  .brand, .external-nav a { min-height: 44px; align-items: center; }
   .brand > span:last-child { display: none; }
   .hero { padding-top: 4rem; }
   .hero h1 { font-size: clamp(2.7rem, 14vw, 4.4rem); }

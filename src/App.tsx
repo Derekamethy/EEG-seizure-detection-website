@@ -7,9 +7,7 @@ import { calculatePooledEventAggregates } from './utils/metrics'
 
 const links = {
   portfolio: 'https://derekamethy.github.io/',
-  eegGithub: 'https://github.com/Derekamethy/EEG-seizure-detection-website',
   crfid: 'https://derekamethy.github.io/CRFID-research-website/',
-  crfidGithub: 'https://github.com/Derekamethy/CRFID-research-website',
 }
 
 const contribution = [
@@ -52,7 +50,6 @@ export default function App() {
         </nav>
         <div className="external-nav" aria-label="External navigation">
           <ExternalLink href={links.portfolio}>Portfolio</ExternalLink>
-          <ExternalLink href={links.eegGithub}>GitHub</ExternalLink>
           <ExternalLink href={links.crfid}>CRFID</ExternalLink>
         </div>
       </header>
@@ -287,7 +284,6 @@ export default function App() {
           </div>
           <div className="cross-project-actions">
             <ExternalLink href={links.crfid}>Explore the CRFID research case study</ExternalLink>
-            <ExternalLink href={links.crfidGithub}>View the CRFID source repository</ExternalLink>
           </div>
         </section>
 
@@ -309,9 +305,7 @@ export default function App() {
           <h2>Continue through the wider engineering portfolio</h2>
           <div className="closing-links">
             <ExternalLink href={links.portfolio}>Personal portfolio</ExternalLink>
-            <ExternalLink href={links.eegGithub}>EEG GitHub</ExternalLink>
             <ExternalLink href={links.crfid}>CRFID research case study</ExternalLink>
-            <ExternalLink href={links.crfidGithub}>CRFID GitHub</ExternalLink>
           </div>
           <p>This page explains an academic engineering prototype using a public EEG dataset. It is not a medical device, is not intended for diagnosis, and does not claim clinical or production readiness.</p>
         </section>

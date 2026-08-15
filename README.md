@@ -2,6 +2,8 @@
 
 A public engineering case study by Derek Yang on turning multichannel scalp EEG into patient-specific seizure-event decisions while keeping false alarms, temporal logic, model size, and deployment constraints visible.
 
+This repository contains the source for the public interactive case-study website. It includes browser-safe summary data and visualisation code, not the canonical machine-learning research implementation, raw EEG data, or a complete research-code release.
+
 ## Online demo
 
 https://derekamethy.github.io/EEG-seizure-detection-website/
@@ -14,7 +16,7 @@ The project therefore prioritises an inspectable signal-to-event pipeline over m
 
 ## Verified pipeline
 
-The final implementation:
+The study pipeline presented by the website:
 
 1. Loads CHB-MIT EDF recordings and annotation summaries.
 2. Aligns 22 bipolar channels, including reversed-polarity matching.

@@ -63,9 +63,7 @@ test('navigation, interactions, resources, and responsive layout', async ({ page
 
   const expectedExternalLinks = [
     'https://derekamethy.github.io/',
-    'https://github.com/Derekamethy/EEG-seizure-detection-website',
     'https://derekamethy.github.io/CRFID-research-website/',
-    'https://github.com/Derekamethy/CRFID-research-website',
   ]
   for (const href of expectedExternalLinks) {
     const links = page.locator('a[href="' + href + '"]')
@@ -75,6 +73,9 @@ test('navigation, interactions, resources, and responsive layout', async ({ page
       await expect(links.nth(index)).toHaveAttribute('rel', 'noreferrer')
     }
   }
+
+  await expect(page.locator('a[href*="github.com/Derekamethy/EEG-seizure-detection-website"]')).toHaveCount(0)
+  await expect(page.locator('a[href*="github.com/Derekamethy/CRFID-research-website"]')).toHaveCount(0)
 
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derekamethy.github.io/EEG-seizure-detection-website/')
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://derekamethy.github.io/EEG-seizure-detection-website/og.png')

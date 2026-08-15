@@ -9,7 +9,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   webServer: {
-    command: 'node_modules\\.bin\\vite.cmd preview --host 127.0.0.1 --port 4173',
+    command: 'pnpm exec vite preview --host 127.0.0.1 --port 4173',
     url: 'http://127.0.0.1:4173/EEG-seizure-detection-website/',
     reuseExistingServer: true,
   },

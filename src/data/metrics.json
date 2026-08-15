@@ -1,0 +1,76 @@
+{
+  "headline": {
+    "macroEventSensitivity": 0.98,
+    "medianSubjectFarPerHour": 0.2455,
+    "meanDetectionDelaySeconds": 10.64,
+    "medianDetectionDelaySeconds": 5.0,
+    "hours": 580.57,
+    "seizures": 55,
+    "subjects": 10,
+    "aggregation": {
+      "macroEventSensitivity": "Arithmetic mean of the 10 subject-level event sensitivities.",
+      "medianSubjectFarPerHour": "Median of the 10 subject-level false-alarm-event rates per hour.",
+      "meanDetectionDelaySeconds": "Mean across detected seizure events only; missed seizures are excluded."
+    },
+    "delayDefinition": {
+      "denominator": "Detected seizure events with at least one valid alarm inside the labelled event.",
+      "start": "First positive 2-second annotation-overlap epoch, which approximates annotated onset at epoch resolution.",
+      "end": "First valid predicted epoch within the event.",
+      "postProcessing": "Probabilities are median-filtered over 5 epochs, thresholded, then runs shorter than 3 epochs are removed before delay is measured."
+    }
+  },
+  "pooledEvents": {
+    "detected": 53,
+    "missed": 2,
+    "falseAlarms": 178,
+    "hours": 580.57,
+    "detectionRate": 0.9636363636363636,
+    "farPerHour": 0.3065952426050261,
+    "aggregation": "Pooled event counts: 53/(53+2) and 178/580.57 h; not the macro sensitivity or median subject FAR."
+  },
+  "modelComparison": [
+    {
+      "model": "SVM-RBF",
+      "sensitivity": 0.955,
+      "farPerHour": 1.1788,
+      "meanDelaySeconds": 8.35
+    },
+    {
+      "model": "Random Forest",
+      "sensitivity": 0.955,
+      "farPerHour": 0.2767,
+      "meanDelaySeconds": 7.36
+    },
+    {
+      "model": "XGBoost",
+      "sensitivity": 0.93,
+      "farPerHour": 0.3419,
+      "meanDelaySeconds": 4.53
+    }
+  ],
+  "featureReduction": [
+    {
+      "variant": "Full 1,772 features",
+      "detected": 52,
+      "missed": 3,
+      "falseAlarms": 183,
+      "sensitivity": 0.9455,
+      "farPerHour": 0.3152,
+      "delaySeconds": 6.69
+    },
+    {
+      "variant": "Selected top 30",
+      "detected": 53,
+      "missed": 2,
+      "falseAlarms": 178,
+      "sensitivity": 0.9636,
+      "farPerHour": 0.3066,
+      "delaySeconds": 9.09
+    }
+  ],
+  "provenance": {
+    "source": "Final report Tables 5-7 and executed main notebook outputs",
+    "evaluation": "Within-subject, file-level leave-one-seizure-out evaluation on a 10-subject CHB-MIT subset; one patient-specific model per subject; no unseen-subject generalisation test",
+    "status": "Reported from saved outputs; not recomputed because EDF/cache/model artifacts are absent"
+  }
+}

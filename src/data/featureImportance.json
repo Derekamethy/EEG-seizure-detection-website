@@ -1,0 +1,85 @@
+{
+  "items": [
+    {
+      "feature": "F4-C4 [4-6Hz] @ t",
+      "importance": 0.127547
+    },
+    {
+      "feature": "FT9-FT10 [4-6Hz] @ t",
+      "importance": 0.1098
+    },
+    {
+      "feature": "F3-C3 [4-6Hz] @ t",
+      "importance": 0.105735
+    },
+    {
+      "feature": "C4-P4 [2-4Hz] @ t",
+      "importance": 0.059639
+    },
+    {
+      "feature": "FT9-FT10 [4-6Hz] @ t-1",
+      "importance": 0.058509
+    },
+    {
+      "feature": "F4-C4 [4-6Hz] @ t-1",
+      "importance": 0.058472
+    },
+    {
+      "feature": "FT9-FT10 [8-10Hz] @ t-1",
+      "importance": 0.054753
+    },
+    {
+      "feature": "FZ-CZ [4-6Hz] @ t",
+      "importance": 0.051788
+    },
+    {
+      "feature": "T7-P7 [2-4Hz] @ t",
+      "importance": 0.051087
+    },
+    {
+      "feature": "F4-C4 [2-4Hz] @ t",
+      "importance": 0.034099
+    },
+    {
+      "feature": "T7-P7 [4-6Hz] @ t",
+      "importance": 0.033139
+    },
+    {
+      "feature": "FT9-FT10 [8-10Hz] @ t-2",
+      "importance": 0.031321
+    },
+    {
+      "feature": "P7-O1 [2-4Hz] @ t",
+      "importance": 0.029211
+    },
+    {
+      "feature": "FT9-FT10 [2-4Hz] @ t",
+      "importance": 0.026389
+    },
+    {
+      "feature": "F4-C4 [4-6Hz] @ t-2",
+      "importance": 0.023013
+    },
+    {
+      "feature": "C4-P4 [4-6Hz] @ t",
+      "importance": 0.020794
+    },
+    {
+      "feature": "P4-O2 [2-4Hz] @ t",
+      "importance": 0.0191
+    },
+    {
+      "feature": "FZ-CZ [4-6Hz] @ t-2",
+      "importance": 0.015342
+    },
+    {
+      "feature": "F8-T8 [4-6Hz] @ t-1",
+      "importance": 0.011791
+    },
+    {
+      "feature": "C4-P4 [4-6Hz] @ t-1",
+      "importance": 0.011695
+    }
+  ],
+  "provenance": "Executed main notebook, representative anonymised subject; Gini impurity importance"
+}

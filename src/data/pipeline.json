@@ -1,0 +1,66 @@
+[
+  {
+    "id": "recording",
+    "label": "EEG recording",
+    "overview": "Load scalp EEG and seizure annotations for one study subject.",
+    "technical": "EDF + summary text; normalise names and align 22 bipolar channels.",
+    "shape": "22 x samples",
+    "implementation": "parse_summary_to_dict / align_channels"
+  },
+  {
+    "id": "preprocess",
+    "label": "Preprocess",
+    "overview": "Remove out-of-band activity while preserving the waveform timing.",
+    "technical": "Zero-phase 4th-order Butterworth SOS band-pass, 0.5-50 Hz.",
+    "shape": "22 x samples",
+    "implementation": "bandpass_filter_multich"
+  },
+  {
+    "id": "window",
+    "label": "Segment + label",
+    "overview": "Divide the recording into short windows and mark seizure overlap.",
+    "technical": "Non-overlapping 2 s epochs; any annotation overlap gives label 1.",
+    "shape": "epochs x 22 x samples",
+    "implementation": "extract_base_features_for_file / build_epoch_labels"
+  },
+  {
+    "id": "features",
+    "label": "Build features",
+    "overview": "Describe frequency content, left-right relationships, and recent change.",
+    "technical": "440 FFT band-power sums + 3 correlations = 443; stack current + 3 prior epochs = 1,772.",
+    "shape": "epochs x 1772",
+    "implementation": "extract_base_features_for_file / temporal_stack_features"
+  },
+  {
+    "id": "selection",
+    "label": "Select 30",
+    "overview": "Keep the most useful training-side features for each validation fold.",
+    "technical": "Fold-local RF impurity selection on inner-train data only.",
+    "shape": "epochs x 30",
+    "implementation": "select_top_k_features_tree"
+  },
+  {
+    "id": "classifier",
+    "label": "Random Forest",
+    "overview": "Estimate seizure probability with a patient-specific ensemble.",
+    "technical": "500 trees, max depth 12, min leaf 1, sqrt features, balanced subsampling.",
+    "shape": "probability per epoch",
+    "implementation": "make_model('random_forest')"
+  },
+  {
+    "id": "decision",
+    "label": "Form alarms",
+    "overview": "Smooth probabilities, apply a subject-specific threshold, and reject very short alarms.",
+    "technical": "Median kernel 5 epochs; threshold selected on inner validation; minimum run 3 epochs.",
+    "shape": "binary alarm timeline",
+    "implementation": "medfilt / choose_threshold_from_validation / apply_duration_constraint"
+  },
+  {
+    "id": "evaluate",
+    "label": "Evaluate events",
+    "overview": "Measure whether seizures were caught, how often false alarms occurred, and detection delay.",
+    "technical": "Within-subject, file-level leave-one-seizure-out evaluation; one patient-specific model per subject; no unseen-subject generalisation test.",
+    "shape": "event metrics",
+    "implementation": "evaluation orchestration / compute_event_metrics"
+  }
+]

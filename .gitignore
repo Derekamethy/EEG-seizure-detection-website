@@ -1,0 +1,14 @@
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+*.local
+*.log
+.env
+.env.*
+!.env.example
+.vite/
+audit/
+review/
+EEG_Showcase_GPT_Review.zip

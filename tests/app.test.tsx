@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import '@testing-library/jest-dom/vitest'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 import { describe, expect, it, vi } from 'vitest'
 import App from '../src/App'
@@ -19,6 +19,18 @@ describe('App', () => {
     expect(screen.getByRole('link', { name: 'Portfolio' })).toHaveAttribute('href', 'https://derekamethy.github.io/')
     expect(screen.getAllByRole('link').some((link) => /^https:\/\/github\.com\/Derekamethy\/(EEG-seizure-detection-website|CRFID-research-website)\/?$/.test(link.getAttribute('href') || ''))).toBe(false)
     expect(screen.getByText(/zero-phase filter and centred five-epoch median smoother are retrospective and non-causal/i)).toBeInTheDocument()
+    expect(screen.getByTestId('verified-seizure-explorer')).toBeInTheDocument()
+    expect(screen.getByText(/Raw RF predict_proba in saved output/i)).toBeInTheDocument()
+    expect(screen.getAllByRole('button', { name: /^Open figure:/i })).toHaveLength(6)
     expect(screen.getByRole('link', { name: /Explore the CRFID research case study/i })).toHaveAttribute('href', 'https://derekamethy.github.io/CRFID-research-website/')
+  })
+
+  it('opens and closes the shared evidence lightbox with the keyboard', () => {
+    render(<App />)
+    const trigger = screen.getAllByRole('button', { name: /^Open figure:/i })[0]
+    fireEvent.click(trigger)
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    fireEvent.keyDown(window, { key: 'Escape' })
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 })

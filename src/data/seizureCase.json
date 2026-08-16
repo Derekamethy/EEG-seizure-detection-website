@@ -1,0 +1,34 @@
+{
+  "metadata": {
+    "patient": "chb01",
+    "recording": "chb01_03.edf",
+    "event": "First annotated seizure in the recording",
+    "epochSeconds": 2,
+    "onsetEpoch": 1498,
+    "onsetTimeSeconds": 2996,
+    "storedThreshold": 0.499,
+    "probabilityKind": "Raw Random Forest predict_proba output from the saved executed notebook cell",
+    "annotationRule": "A 2-second epoch is positive when it overlaps the annotated seizure interval.",
+    "source": "EE6019 Final Code.ipynb saved output; reproduced in Final Report Figure 4",
+    "interpolation": "None"
+  },
+  "points": [
+    { "epochIndex": 1490, "absoluteTimeSeconds": 2980, "relativeTimeSeconds": -16, "annotation": 0, "rawProbability": 0.0, "recordedAlarm": 0 },
+    { "epochIndex": 1491, "absoluteTimeSeconds": 2982, "relativeTimeSeconds": -14, "annotation": 0, "rawProbability": 0.0, "recordedAlarm": 0 },
+    { "epochIndex": 1492, "absoluteTimeSeconds": 2984, "relativeTimeSeconds": -12, "annotation": 0, "rawProbability": 0.0, "recordedAlarm": 0 },
+    { "epochIndex": 1493, "absoluteTimeSeconds": 2986, "relativeTimeSeconds": -10, "annotation": 0, "rawProbability": 0.0, "recordedAlarm": 0 },
+    { "epochIndex": 1494, "absoluteTimeSeconds": 2988, "relativeTimeSeconds": -8, "annotation": 0, "rawProbability": 0.0, "recordedAlarm": 0 },
+    { "epochIndex": 1495, "absoluteTimeSeconds": 2990, "relativeTimeSeconds": -6, "annotation": 0, "rawProbability": 0.0, "recordedAlarm": 0 },
+    { "epochIndex": 1496, "absoluteTimeSeconds": 2992, "relativeTimeSeconds": -4, "annotation": 0, "rawProbability": 0.0, "recordedAlarm": 0 },
+    { "epochIndex": 1497, "absoluteTimeSeconds": 2994, "relativeTimeSeconds": -2, "annotation": 0, "rawProbability": 0.0, "recordedAlarm": 0 },
+    { "epochIndex": 1498, "absoluteTimeSeconds": 2996, "relativeTimeSeconds": 0, "annotation": 1, "rawProbability": 0.597041, "recordedAlarm": 1 },
+    { "epochIndex": 1499, "absoluteTimeSeconds": 2998, "relativeTimeSeconds": 2, "annotation": 1, "rawProbability": 0.618864, "recordedAlarm": 1 },
+    { "epochIndex": 1500, "absoluteTimeSeconds": 3000, "relativeTimeSeconds": 4, "annotation": 1, "rawProbability": 0.760384, "recordedAlarm": 1 },
+    { "epochIndex": 1501, "absoluteTimeSeconds": 3002, "relativeTimeSeconds": 6, "annotation": 1, "rawProbability": 0.982247, "recordedAlarm": 1 },
+    { "epochIndex": 1502, "absoluteTimeSeconds": 3004, "relativeTimeSeconds": 8, "annotation": 1, "rawProbability": 0.974254, "recordedAlarm": 1 },
+    { "epochIndex": 1503, "absoluteTimeSeconds": 3006, "relativeTimeSeconds": 10, "annotation": 1, "rawProbability": 0.996351, "recordedAlarm": 1 },
+    { "epochIndex": 1504, "absoluteTimeSeconds": 3008, "relativeTimeSeconds": 12, "annotation": 1, "rawProbability": 0.984409, "recordedAlarm": 1 },
+    { "epochIndex": 1505, "absoluteTimeSeconds": 3010, "relativeTimeSeconds": 14, "annotation": 1, "rawProbability": 0.94646, "recordedAlarm": 1 },
+    { "epochIndex": 1506, "absoluteTimeSeconds": 3012, "relativeTimeSeconds": 16, "annotation": 1, "rawProbability": 0.826611, "recordedAlarm": 1 }
+  ]
+}

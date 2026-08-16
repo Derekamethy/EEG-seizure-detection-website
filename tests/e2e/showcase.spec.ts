@@ -54,6 +54,27 @@ test('navigation, interactions, resources, and responsive layout', async ({ page
   await expect(page.getByText(/compute_event_metrics/)).toBeVisible()
   await page.getByRole('button', { name: 'Overview' }).click()
 
+  const evidenceTriggers = page.getByRole('button', { name: /^Open figure:/ })
+  await expect(evidenceTriggers).toHaveCount(6)
+  await evidenceTriggers.first().focus()
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('dialog')).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await evidenceTriggers.nth(1).click()
+  await expect(page.getByRole('dialog')).toBeVisible()
+  await page.locator('.lightbox').click({ position: { x: 4, y: 4 } })
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+
+  await page.locator('#event-logic').scrollIntoViewIfNeeded()
+  await expect(page.getByTestId('verified-seizure-explorer')).toBeVisible()
+  await page.getByRole('button', { name: 'Median-5 derived' }).click()
+  await expect(page.getByRole('button', { name: 'Median-5 derived' })).toHaveAttribute('aria-pressed', 'true')
+  await page.locator('#case-threshold').fill('0.8')
+  await expect(page.getByTestId('case-threshold-value')).toHaveText('0.800')
+  await page.getByRole('button', { name: 'Reset verified operating point' }).click()
+  await expect(page.getByTestId('case-threshold-value')).toHaveText('0.499')
+
   const summaries = page.locator('summary')
   for (let index = 0; index < await summaries.count(); index += 1) {
     const summary = summaries.nth(index)
@@ -98,7 +119,12 @@ test('navigation, interactions, resources, and responsive layout', async ({ page
     expect(measurement.innerWidth).toBe(viewport.width)
     expect(measurement.innerHeight).toBe(viewport.height)
     expect(measurement.horizontalOverflow).toBe(false)
-    await expect(page.locator('img')).toHaveCount(0)
+    await expect(page.locator('img')).toHaveCount(6)
+    for (const image of await page.locator('img').all()) {
+      await image.scrollIntoViewIfNeeded()
+      await expect(image).toBeVisible()
+      expect(await image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true)
+    }
   }
 
   process.stdout.write('VIEWPORT_METRICS ' + JSON.stringify(measurements) + '\n')

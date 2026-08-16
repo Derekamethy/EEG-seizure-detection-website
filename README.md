@@ -4,6 +4,8 @@ A public engineering case study by Derek Yang on turning multichannel scalp EEG 
 
 This repository contains the source for the public interactive case-study website. It includes browser-safe summary data and visualisation code, not the canonical machine-learning research implementation, raw EEG data, or a complete research-code release.
 
+The visual evidence set is drawn from the verified final report and saved notebook outputs. Dense figures use one keyboard-accessible lightbox, and the seizure probability explorer uses the 17 stored two-second predictions for chb01/chb01_03.edf rather than a reconstructed or interpolated curve.
+
 ## Online demo
 
 https://derekamethy.github.io/EEG-seizure-detection-website/
@@ -27,6 +29,8 @@ The study pipeline presented by the website:
 7. Selects 30 features inside each training fold.
 8. Uses a patient-specific 500-tree Random Forest.
 9. Applies median smoothing, a validation-selected threshold, and a minimum-duration rule before event-level evaluation.
+
+The public case explorer labels raw stored probabilities separately from the optional centered five-epoch median view. Its three-epoch persistence view is a deterministic retrospective transformation matching the documented evaluation rule; neither control changes the source values or retrains the model.
 
 ## Evaluation scope
 
@@ -83,7 +87,7 @@ The Vite project uses the GitHub Pages repository base path:
     pnpm build
     pnpm test:e2e
 
-The browser test validates navigation, the Pipeline Explorer, disclosure elements, external links, social-preview metadata, production asset loading, and responsive layout at 1440×900, 768×1024, and 390×844.
+The browser test validates navigation, the Pipeline Explorer, the verified seizure explorer, accessible figure lightboxes, disclosure elements, external links, social-preview metadata, production asset loading, and responsive layout at 1440×900, 768×1024, and 390×844.
 
 ## Scientific and medical boundaries
 

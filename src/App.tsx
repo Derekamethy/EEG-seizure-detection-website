@@ -1,8 +1,10 @@
 import type { ReactNode } from 'react'
 import metrics from './data/metrics.json'
-import { FeatureImportanceChart, ModelComparisonChart } from './charts/ResultsCharts'
+import { ModelComparisonChart } from './charts/ResultsCharts'
+import { EvidenceFigure } from './components/EvidenceFigure'
 import { PipelineExplorer } from './components/PipelineExplorer'
 import { SectionHeading } from './components/SectionHeading'
+import { SeizureProbabilityExplorer } from './components/SeizureProbabilityExplorer'
 import { calculatePooledEventAggregates } from './utils/metrics'
 
 const links = {
@@ -68,19 +70,16 @@ export default function App() {
               <li>Real sensor data</li><li>Event-level evidence</li><li>Deployment constraints</li>
             </ul>
           </div>
-          <aside className="hero-evidence" aria-label="Signal-to-decision overview">
-            <p className="evidence-label"><span></span> Signal → decision</p>
-            <ol className="hero-flow">
-              <li><span>01</span>Raw scalp EEG</li>
-              <li><span>02</span>Short signal windows</li>
-              <li><span>03</span>Useful signal features</li>
-              <li><span>04</span>Compact selected set</li>
-              <li><span>05</span>Classifier probability</li>
-              <li><span>06</span>Temporal event logic</li>
-              <li><span>07</span>Seizure event decision</li>
-            </ol>
-            <p>The classifier is one component. A useful detector must also control leakage, temporal instability, false alarms, and resource cost.</p>
-          </aside>
+          <EvidenceFigure
+            className="hero-project-figure"
+            src="evidence/chb01-clinical-case.png"
+            alt="Two-panel clinical case for chb01_03 showing predicted seizure probability, the annotated seizure state, and four filtered EEG channels around onset"
+            caption="A verified detector output is linked back to the EEG window that produced it."
+            credit="Final report Figure 4 · chb01 / chb01_03.edf · click to inspect"
+            width={1239}
+            height={700}
+            eager
+          />
           <div className="medical-note"><strong>Research prototype</strong> Public-dataset engineering study; not a medical device and not intended for diagnosis.</div>
         </section>
 
@@ -94,6 +93,24 @@ export default function App() {
             <article><span>01</span><h3>Noisy, changing input</h3><p>Channel naming, polarity, recording boundaries, and long background periods have to be handled before fitting a model.</p></article>
             <article><span>02</span><h3>Rare events, asymmetric errors</h3><p>A high window-level accuracy can hide missed seizures or frequent false alarms; the unit of interest is the event.</p></article>
             <article><span>03</span><h3>A constrained destination</h3><p>Model choice also affects memory, latency, interpretability, and whether a research pipeline can move toward edge execution.</p></article>
+          </div>
+          <div className="evidence-pair data-evidence">
+            <EvidenceFigure
+              src="evidence/representative-scalp-eeg-seizure.png"
+              alt="Sixteen stacked bipolar scalp EEG traces across a representative seizure segment"
+              caption="A seizure is a coordinated, evolving multichannel pattern—not a single clean waveform."
+              credit="Final report Figure 1; reproduced there from Shoeb and Guttag"
+              width={911}
+              height={428}
+            />
+            <EvidenceFigure
+              src="evidence/seizure-vs-sleep-spindle-spectrum.png"
+              alt="Spectral comparison between seizure onset and a non-ictal sleep spindle from zero to 24 hertz"
+              caption="Seizure and non-seizure activity can overlap spectrally, so no single frequency bin solves the task."
+              credit="Final report Figure 2; reproduced there from Shoeb and Guttag"
+              width={899}
+              height={635}
+            />
           </div>
           <div className="scope-strip">
             <span><strong>CHB-MIT</strong> public scalp EEG</span>
@@ -181,9 +198,16 @@ export default function App() {
               <p>These are design motivations. The measured cohort result is reported separately at left.</p>
             </article>
           </div>
-          <article className="result-card feature-chart-card">
+          <article className="result-card feature-chart-card evidence-card">
             <div className="card-heading"><p className="eyebrow">Representative subject</p><h3>Selected features stay traceable</h3><p>Importance concentrated in low-frequency bands and short temporal lags for one anonymised model. This is attribution for that model—not a universal physiological rule.</p></div>
-            <FeatureImportanceChart />
+            <EvidenceFigure
+              src="evidence/chb01-feature-importance.png"
+              alt="Horizontal ranking of the top 20 Random Forest feature importances for chb01, led by low-frequency channel features at current and prior epochs"
+              caption="The final selected features retain channel, band, and temporal-lag identity."
+              credit="Final report Figure 3 · representative chb01 deployment model"
+              width={1473}
+              height={1170}
+            />
           </article>
         </section>
 
@@ -212,6 +236,12 @@ export default function App() {
             <div className="event-output"><span>05</span><strong>Event decision</strong><p>Capture, false alarms, delay</p></div>
           </div>
           <div className="event-callout"><strong>System implication</strong><p>A detector that fires throughout normal recording time is not useful even if its window-level accuracy appears high. That is why the headline evidence uses event sensitivity, false alarms per hour, and detection delay.</p></div>
+          <div className="explorer-intro">
+            <p className="eyebrow">Verified case explorer</p>
+            <h3>Inspect one stored probability sequence without inventing intermediate samples</h3>
+            <p>The default view reproduces the raw two-second scores and 0.499 operating threshold saved by the final notebook. Optional controls expose the documented retrospective post-processing rules.</p>
+          </div>
+          <SeizureProbabilityExplorer />
         </section>
 
         <section className="section results-section" id="evaluation">
@@ -240,6 +270,29 @@ export default function App() {
               <h3>What was not tested</h3>
               <ul><li>Unseen-subject generalisation</li><li>External or prospective data</li><li>Clinical workflow performance</li></ul>
             </aside>
+          </div>
+          <div className="error-evidence-heading">
+            <p className="eyebrow">Failure-mode evidence</p>
+            <h3>Strong aggregate results still contain clinically different errors</h3>
+            <p>These refinement-branch examples are diagnostic cases, not replacements for the canonical benchmark above.</p>
+          </div>
+          <div className="evidence-pair error-evidence">
+            <EvidenceFigure
+              src="evidence/chb04-delayed-true-positive.png"
+              alt="A chb04 delayed true-positive case showing probability, threshold, true and predicted states, and four filtered EEG channels"
+              caption="chb04: the event is captured, but the alarm arrives late."
+              credit="Final report Figure 5 · clinical refinement branch"
+              width={1239}
+              height={895}
+            />
+            <EvidenceFigure
+              src="evidence/chb08-false-positive.png"
+              alt="A chb08 false-positive case showing a probability threshold crossing on non-seizure EEG"
+              caption="chb08: a sustained threshold crossing occurs outside a labelled seizure."
+              credit="Final report Figure 6 · clinical refinement branch"
+              width={1239}
+              height={895}
+            />
           </div>
         </section>
 

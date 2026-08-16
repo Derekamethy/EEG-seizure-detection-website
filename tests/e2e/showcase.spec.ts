@@ -126,6 +126,14 @@ test('navigation, interactions, resources, and responsive layout', async ({ page
   const socialImageResponse = await page.request.get(deploymentPath + 'og.png')
   expect(socialImageResponse.ok()).toBe(true)
 
+  const images = page.locator('img')
+  await expect(images).toHaveCount(7)
+  for (const image of await images.all()) {
+    await image.scrollIntoViewIfNeeded()
+    await expect(image).toBeVisible()
+    expect(await image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true)
+  }
+
   const measurements: Array<Record<string, number | boolean>> = []
   for (const viewport of viewports) {
     await page.setViewportSize(viewport)
@@ -143,11 +151,6 @@ test('navigation, interactions, resources, and responsive layout', async ({ page
     expect(measurement.innerHeight).toBe(viewport.height)
     expect(measurement.horizontalOverflow).toBe(false)
     await expect(page.locator('img')).toHaveCount(7)
-    for (const image of await page.locator('img').all()) {
-      await image.scrollIntoViewIfNeeded()
-      await expect(image).toBeVisible()
-      expect(await image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true)
-    }
   }
 
   await page.getByRole('slider', { name: 'Review time' }).fill('4')

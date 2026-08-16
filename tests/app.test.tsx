@@ -19,9 +19,9 @@ describe('App', () => {
     expect(screen.getByRole('link', { name: 'Portfolio' })).toHaveAttribute('href', 'https://derekamethy.github.io/')
     expect(screen.getAllByRole('link').some((link) => /^https:\/\/github\.com\/Derekamethy\/(EEG-seizure-detection-website|CRFID-research-website)\/?$/.test(link.getAttribute('href') || ''))).toBe(false)
     expect(screen.getByText(/zero-phase filter and centred five-epoch median smoother are retrospective and non-causal/i)).toBeInTheDocument()
-    expect(screen.getByTestId('verified-seizure-explorer')).toBeInTheDocument()
+    expect(screen.getByTestId('event-review-workspace')).toBeInTheDocument()
     expect(screen.getByText(/Raw RF predict_proba in saved output/i)).toBeInTheDocument()
-    expect(screen.getAllByRole('button', { name: /^Open figure:/i })).toHaveLength(6)
+    expect(screen.getAllByRole('button', { name: /^Open figure:/i })).toHaveLength(7)
     expect(screen.getByRole('link', { name: /Explore the CRFID research case study/i })).toHaveAttribute('href', 'https://derekamethy.github.io/CRFID-research-website/')
   })
 

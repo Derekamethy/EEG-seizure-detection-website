@@ -4,7 +4,7 @@ import { ModelComparisonChart } from './charts/ResultsCharts'
 import { EvidenceFigure } from './components/EvidenceFigure'
 import { PipelineExplorer } from './components/PipelineExplorer'
 import { SectionHeading } from './components/SectionHeading'
-import { SeizureProbabilityExplorer } from './components/SeizureProbabilityExplorer'
+import { EventReviewWorkspace } from './components/EventReviewWorkspace'
 import { calculatePooledEventAggregates } from './utils/metrics'
 
 const links = {
@@ -75,7 +75,7 @@ export default function App() {
             src="evidence/chb01-clinical-case.png"
             alt="Two-panel clinical case for chb01_03 showing predicted seizure probability, the annotated seizure state, and four filtered EEG channels around onset"
             caption="A verified detector output is linked back to the EEG window that produced it."
-            credit="Final report Figure 4 · chb01 / chb01_03.edf · click to inspect"
+            credit="chb01 / chb01_03.edf · verified project evidence · click to inspect"
             width={1239}
             height={700}
             eager
@@ -227,7 +227,7 @@ export default function App() {
         </section>
 
         <section className="section event-section" id="event-logic">
-          <SectionHeading eyebrow="07 · Event-level decision logic" title="A useful alarm has to persist" copy="The system does not treat every positive two-second window as a seizure event. Post-processing turns noisy probabilities into sustained decisions, then evaluates events and false alarms per hour." />
+          <SectionHeading eyebrow="07 · Event-level decision logic" title="A useful decision has to persist" copy="The system does not treat every positive two-second window as a seizure event. Retrospective post-processing turns noisy probabilities into sustained decisions, then evaluates events and false alarms per hour." />
           <div className="event-flow" aria-label="Event decision logic">
             <div><span>01</span><strong>Window probability</strong><p>One score per 2 s epoch</p></div><i>→</i>
             <div><span>02</span><strong>Median smoothing</strong><p>5 epochs / 10 s</p></div><i>→</i>
@@ -237,11 +237,11 @@ export default function App() {
           </div>
           <div className="event-callout"><strong>System implication</strong><p>A detector that fires throughout normal recording time is not useful even if its window-level accuracy appears high. That is why the headline evidence uses event sensitivity, false alarms per hour, and detection delay.</p></div>
           <div className="explorer-intro">
-            <p className="eyebrow">Verified case explorer</p>
-            <h3>Inspect one stored probability sequence without inventing intermediate samples</h3>
-            <p>The default view reproduces the raw two-second scores and 0.499 operating threshold saved by the final notebook. Optional controls expose the documented retrospective post-processing rules.</p>
+            <p className="eyebrow">Verified event workspace</p>
+            <h3>Replay a verified seizure event</h3>
+            <p>Move through one stored two-second prediction sequence and inspect how EEG evidence, model score, annotation, and retrospective decision logic align over time.</p>
           </div>
-          <SeizureProbabilityExplorer />
+          <EventReviewWorkspace />
         </section>
 
         <section className="section results-section" id="evaluation">

@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test'
 
 const viewports = [
   { width: 1440, height: 900 },
+  { width: 1024, height: 768 },
   { width: 768, height: 1024 },
   { width: 390, height: 844 },
 ]
@@ -55,7 +56,7 @@ test('navigation, interactions, resources, and responsive layout', async ({ page
   await page.getByRole('button', { name: 'Overview' }).click()
 
   const evidenceTriggers = page.getByRole('button', { name: /^Open figure:/ })
-  await expect(evidenceTriggers).toHaveCount(6)
+  await expect(evidenceTriggers).toHaveCount(7)
   await evidenceTriggers.first().focus()
   await page.keyboard.press('Enter')
   await expect(page.getByRole('dialog')).toBeVisible()
@@ -67,13 +68,35 @@ test('navigation, interactions, resources, and responsive layout', async ({ page
   await expect(page.getByRole('dialog')).toHaveCount(0)
 
   await page.locator('#event-logic').scrollIntoViewIfNeeded()
-  await expect(page.getByTestId('verified-seizure-explorer')).toBeVisible()
+  await expect(page.getByTestId('event-review-workspace')).toBeVisible()
+  const scrubber = page.getByRole('slider', { name: 'Review time' })
+  await expect(scrubber).toHaveValue('0')
+  await scrubber.fill('-16')
+  await expect(page.getByTestId('event-epoch')).toHaveText('1490')
+  await expect(page.getByTestId('event-recording-time')).toHaveText('2980 s')
+  await expect(page.getByTestId('event-probability')).toHaveText('0.000000')
+  await expect(page.getByTestId('event-annotation')).toHaveText('Background')
+  await scrubber.fill('0')
+  await expect(page.getByTestId('event-epoch')).toHaveText('1498')
+  await expect(page.getByTestId('event-recording-time')).toHaveText('2996 s')
+  await expect(page.getByTestId('event-probability')).toHaveText('0.597041')
+  await scrubber.fill('4')
+  await expect(page.getByTestId('event-epoch')).toHaveText('1500')
+  await expect(page.getByTestId('event-recording-time')).toHaveText('3000 s')
+  await expect(page.getByTestId('event-probability')).toHaveText('0.760384')
+  await expect(page.getByTestId('event-annotation')).toHaveText('Seizure')
+  await scrubber.fill('16')
+  await expect(page.getByTestId('event-epoch')).toHaveText('1506')
+  await expect(page.getByTestId('event-probability')).toHaveText('0.826611')
   await page.getByRole('button', { name: 'Median-5 derived' }).click()
   await expect(page.getByRole('button', { name: 'Median-5 derived' })).toHaveAttribute('aria-pressed', 'true')
   await page.locator('#case-threshold').fill('0.8')
   await expect(page.getByTestId('case-threshold-value')).toHaveText('0.800')
   await page.getByRole('button', { name: 'Reset verified operating point' }).click()
   await expect(page.getByTestId('case-threshold-value')).toHaveText('0.499')
+  await expect(scrubber).toHaveValue('0')
+  await page.getByRole('checkbox', { name: /Apply retrospective 3-epoch run filter/i }).uncheck()
+  await expect(page.getByTestId('event-filter-state')).toHaveText('Not applied')
 
   const summaries = page.locator('summary')
   for (let index = 0; index < await summaries.count(); index += 1) {
@@ -119,13 +142,17 @@ test('navigation, interactions, resources, and responsive layout', async ({ page
     expect(measurement.innerWidth).toBe(viewport.width)
     expect(measurement.innerHeight).toBe(viewport.height)
     expect(measurement.horizontalOverflow).toBe(false)
-    await expect(page.locator('img')).toHaveCount(6)
+    await expect(page.locator('img')).toHaveCount(7)
     for (const image of await page.locator('img').all()) {
       await image.scrollIntoViewIfNeeded()
       await expect(image).toBeVisible()
       expect(await image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true)
     }
   }
+
+  await page.getByRole('slider', { name: 'Review time' }).fill('4')
+  await expect(page.getByTestId('event-epoch')).toHaveText('1500')
+  await expect(page.getByTestId('event-probability')).toHaveText('0.760384')
 
   process.stdout.write('VIEWPORT_METRICS ' + JSON.stringify(measurements) + '\n')
   expect(consoleErrors).toEqual([])

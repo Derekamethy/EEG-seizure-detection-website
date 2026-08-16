@@ -29,6 +29,11 @@ describe('EventReviewWorkspace', () => {
     expect(screen.getByTestId('event-probability')).toHaveTextContent('0.597041')
     expect(screen.getByTestId('event-annotation')).toHaveTextContent('Seizure')
 
+    expect(screen.getByText('Inspection options').closest('details')).not.toHaveAttribute('open')
+    expect(screen.getByText('Data & evaluation boundary').closest('details')).not.toHaveAttribute('open')
+    expect(screen.getByText('Inspect stored prediction values').closest('details')).not.toHaveAttribute('open')
+    expect(screen.queryByRole('heading', { name: 'Annotation and retrospective decision' })).not.toBeInTheDocument()
+
     moveTo(-16)
     expect(screen.getByTestId('event-epoch')).toHaveTextContent('1490')
     expect(screen.getByTestId('event-recording-time')).toHaveTextContent('2980 s')
@@ -48,6 +53,7 @@ describe('EventReviewWorkspace', () => {
 
   it('keeps median, threshold, and persistence inspection explicitly retrospective', () => {
     render(<EventReviewWorkspace />)
+    fireEvent.click(screen.getByText('Inspection options'))
     moveTo(12)
     fireEvent.click(screen.getByRole('button', { name: 'Median-5 derived' }))
     expect(screen.getByTestId('event-probability')).toHaveTextContent('0.974254')
@@ -61,7 +67,7 @@ describe('EventReviewWorkspace', () => {
     fireEvent.click(screen.getByRole('checkbox', { name: /Apply retrospective 3-epoch run filter/i }))
     expect(screen.getByTestId('event-filter-state')).toHaveTextContent('Not applied')
     expect(screen.getByText('First retained in-event epoch')).toBeInTheDocument()
-    expect(screen.getByText(/centered 5-epoch median; derived, non-causal/i)).toBeInTheDocument()
+    expect(screen.getByText(/Centered median-5 is derived and non-causal/i)).toBeInTheDocument()
   })
 
   it('uses semantic decision values in chart tooltips', () => {

@@ -85,9 +85,34 @@ test('navigation, interactions, resources, and responsive layout', async ({ page
   await expect(page.getByTestId('event-recording-time')).toHaveText('3000 s')
   await expect(page.getByTestId('event-probability')).toHaveText('0.760384')
   await expect(page.getByTestId('event-annotation')).toHaveText('Seizure')
+
+  const sameViewSelectors = [
+    '[data-testid="probability-panel"]',
+    '[data-testid="eeg-panel"]',
+    '[data-testid="event-scrubber"]',
+    '[data-testid="compact-event-readout"]',
+  ]
+  await page.getByTestId('probability-panel').evaluate((element) => element.scrollIntoView({ block: 'start' }))
+  await page.waitForTimeout(150)
+  const sameView = await page.evaluate((selectors) => selectors.map((selector) => {
+    const rectangle = document.querySelector(selector)?.getBoundingClientRect()
+    return rectangle ? { selector, top: rectangle.top, bottom: rectangle.bottom } : null
+  }), sameViewSelectors)
+  for (const item of sameView) {
+    expect(item).not.toBeNull()
+    expect(item!.top).toBeGreaterThanOrEqual(70)
+    expect(item!.bottom).toBeLessThanOrEqual(900)
+  }
+  await page.screenshot({ path: 'test-results/block26-same-view-1440x900.png', fullPage: false })
+
+  const eegCrop = page.getByRole('img', { name: /Pixel-preserving crop of four filtered EEG channels/i })
+  await expect(eegCrop).toBeVisible()
+  expect(await eegCrop.evaluate((image) => [image.naturalWidth, image.naturalHeight])).toEqual([1239, 430])
+
   await scrubber.fill('16')
   await expect(page.getByTestId('event-epoch')).toHaveText('1506')
   await expect(page.getByTestId('event-probability')).toHaveText('0.826611')
+  await page.getByText('Inspection options', { exact: true }).click()
   await page.getByRole('button', { name: 'Median-5 derived' }).click()
   await expect(page.getByRole('button', { name: 'Median-5 derived' })).toHaveAttribute('aria-pressed', 'true')
   await page.locator('#case-threshold').fill('0.8')
@@ -101,8 +126,9 @@ test('navigation, interactions, resources, and responsive layout', async ({ page
   const summaries = page.locator('summary')
   for (let index = 0; index < await summaries.count(); index += 1) {
     const summary = summaries.nth(index)
-    await summary.click()
-    await expect(summary.locator('..')).toHaveAttribute('open', '')
+    const detail = summary.locator('..')
+    if (await detail.getAttribute('open') === null) await summary.click()
+    await expect(detail).toHaveAttribute('open', '')
   }
 
   const expectedExternalLinks = [

@@ -236,11 +236,6 @@ export default function App() {
             <div className="event-output"><span>05</span><strong>Event decision</strong><p>Capture, false alarms, delay</p></div>
           </div>
           <div className="event-callout"><strong>System implication</strong><p>A detector that fires throughout normal recording time is not useful even if its window-level accuracy appears high. That is why the headline evidence uses event sensitivity, false alarms per hour, and detection delay.</p></div>
-          <div className="explorer-intro">
-            <p className="eyebrow">Verified event workspace</p>
-            <h3>Replay a verified seizure event</h3>
-            <p>Move through one stored two-second prediction sequence and inspect how EEG evidence, model score, annotation, and retrospective decision logic align over time.</p>
-          </div>
           <EventReviewWorkspace />
         </section>
 

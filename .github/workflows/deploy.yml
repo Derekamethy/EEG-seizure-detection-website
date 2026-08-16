@@ -39,12 +39,17 @@ jobs:
       - name: Install browser dependencies
         run: pnpm exec playwright install --with-deps chrome
 
-      - name: Run quality gate
-        run: |
-          pnpm lint
-          pnpm test
-          pnpm build
-          pnpm test:e2e
+      - name: Lint
+        run: pnpm lint
+
+      - name: Run unit tests
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+
+      - name: Run end-to-end tests
+        run: pnpm test:e2e
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
